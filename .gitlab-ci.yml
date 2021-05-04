@@ -1,0 +1,36 @@
+image: node:latest
+
+variables:
+  APP_SLUG: hpc
+  BUILD_PATH: /tmp/build-$APP_APP_SLUG-$CI_COMMIT_SHA/
+  TARGET_PATH: /var/www/$APP_APP_SLUG/
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build_staging:
+  stage: build
+  script:
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng run demo:build:production --output-path=$BUILD_PATH
+  except:
+    - master
+
+
+deploy_staging:
+  stage: deploy
+  script:
+    - rsync -rtuv --delete $BUILD_PATH TARGET_PATH/$CI_COMMIT_REF_SLUG
+    - rm -R $BUILD_PATH
+  environment:
+    name: $CI_BUILD_REF_NAME/APP_SLUG
+    url: http://$CI_COMMIT_REF_SLUG.APP_SLUG.1dev.tech/
+  except:
+    - master
+
+

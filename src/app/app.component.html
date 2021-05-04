@@ -1,0 +1,54 @@
+<ng-scrollbar appearance="standard">
+<div class="container">
+  <div class="preForm" *ngIf="!secondStepValidated">
+    <h1>Formulaire de configuration de landing page</h1>
+    <div class="firstForm" *ngIf="!firstStepValidated">
+      <form [formGroup]="brandForm" (ngSubmit)="step1()">
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Nom de la marque" type="text" formControlName="brandName">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Numéro Client" type="number" formControlName="customerCareNumber">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Email" type="email" formControlName="customerEmail">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput placeholder="Adresse" type="text" formControlName="customerAddress">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button *ngIf="!firstStepValidated" type="submit" [disabled]="!brandForm.valid">Suivant</button>
+        </div>
+      </form>
+    </div>
+    <div class="secondForm" *ngIf="firstStepValidated && !secondStepValidated">
+      <form *ngIf="firstStepValidated" [formGroup]="pageLandingForm" (ngSubmit)="step2()">
+        <h2>Sections désirées :</h2>
+        <label formArrayName="sectionArray" *ngFor="let section of pageLandingForm.controls.sectionArray.controls; let i = index">
+          <mat-checkbox type="checkbox" [formControlName]="i">
+            {{sectionArray[i].name}}</mat-checkbox>
+        </label>
+        <br>
+        <h2>Features désirées :</h2>
+        <label formArrayName="featureArray" *ngFor="let feature of pageLandingForm.controls.featureArray.controls; let i = index">
+          <mat-checkbox type="checkbox" [formControlName]="i">
+            {{featureArray[i].name}}</mat-checkbox>
+        </label>
+        <br>
+        <button mat-raised-button type="submit">GO !</button>
+      </form>
+    </div>
+  </div>
+
+  <app-tdnpreviewer *ngIf="firstStepValidated && secondStepValidated" (back)="onBacked($event)"></app-tdnpreviewer>
+
+</div>
+</ng-scrollbar>

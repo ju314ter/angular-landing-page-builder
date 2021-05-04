@@ -1,0 +1,395 @@
+<div class="paramContainer">
+    <div><h1>Propriétés de {{sectionName}}</h1></div>
+    <div class="sectionParam">
+        <ng-scrollbar appearance="standard">
+        <form [formGroup]="form" (ngSubmit)="checkStyleRendering()">
+            <button class="actionButton" mat-raised-button type="submit">Verifier</button>
+            <button class="actionButton" mat-raised-button (click)="exportConfigJson()" [disabled]="!isStyleVerified">Exporter</button>
+            <mat-accordion>
+                <div class="generalPanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>General</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panelContent">
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Choisissez un sens</mat-label>
+                                    <select  matNativeControl formControlName="flexDirection" (blur)="save()">
+                                        <option value="row">Gauche à droite</option>
+                                        <option value="row-reverse">Droite à gauche</option>
+                                        <option value="column">Haut en bas</option>
+                                        <option value="column-reverse">Bas en haut</option>
+                                    </select>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-label>Hauteur de section (vh)</mat-label>
+                                <mat-slider
+                                        formControlName="sectionHeight"
+                                        (blur)="save()"
+                                        thumbLabel
+                                        (valueChange)="changeSectionHeight($event)"
+                                        tickInterval="1"
+                                        min="1"
+                                        max="100">
+                                </mat-slider>
+                            </div>
+                            <div>
+                                <mat-label>Marge supérieure</mat-label>
+                                <mat-slider
+                                        formControlName="sectionTopMarginProperty"
+                                        thumbLabel
+                                        (valueChange)="changeSectionTopMargin($event)"
+                                        tickInterval="1"
+                                        min="-200"
+                                        max="200">
+                                </mat-slider>
+                            </div>
+                            <div>
+                                <mat-label>Marge inférieure</mat-label>
+                                <mat-slider
+                                        formControlName="sectionBottomMarginProperty"
+                                        thumbLabel
+                                        (valueChange)="changeSectionBottomMargin($event)"
+                                        tickInterval="1"
+                                        min="-200"
+                                        max="200">
+                                </mat-slider>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+                <div class="backgroundPanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>Background</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panelContent">
+                            <div [ngStyle]="{marginBottom : '10px'}">
+                                <input #fileBackground type="file" name="backgroundFileInput" accept='.svg,.jpg,.jpeg,.png' (change)="onBackgroundSelected(fileBackground.files)"/>
+                                <input type="hidden" name="fileHiddenBackground" formControlName="sectionBackgroundImage" />
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-label>Couleur du background :</mat-label>
+                                    <input matInput placeholder="Couleur background" type="text" formControlName="backgroundColor" (blur)="save()">
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-label>Background position : </mat-label>
+                                <mat-button-toggle-group (valueChange)="changeBackgroundPos($event)" formControlName="backgroundPosProperty" name="backgroundPos"
+                                                         aria-label="Titre Position">
+                                    <mat-button-toggle value="top">Top</mat-button-toggle>
+                                    <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                    <mat-button-toggle value="bottom">Bottom</mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </div>
+                            <div>
+                                <mat-label>Background size : </mat-label>
+                                <mat-button-toggle-group (valueChange)="changeBackgroundSize($event)" formControlName="backgroundSizeProperty" name="backgroundSize"
+                                                         aria-label="Titre Position">
+                                    <mat-button-toggle value="contain">Contain</mat-button-toggle>
+                                    <mat-button-toggle value="cover">Cover</mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+                <div class="illustrationPanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>Illustration</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panelContent">
+                            <div [ngStyle]="{marginBottom: '10px'}">
+                                <mat-slide-toggle formControlName="isIllustrationDisplayed" (change)="save()" checked="true">
+                                    Activer affichage
+                                </mat-slide-toggle>
+                            </div>
+                            <div>
+                                <input #fileIllustration name="illustrationFileInput" type="file" accept='.svg,.jpg,.jpeg,.png' (change)="onIllustrationSelected(fileIllustration.files)"/>
+                                <input type="hidden" name="fileHiddenIllustration" formControlName="sectionIllustrationImage" />
+                            </div>
+                            <div>
+                                <mat-label>Taille d'illustration (%)</mat-label>
+                                <mat-slider
+                                        thumbLabel
+                                        formControlName="illustrationSize"
+                                        (valueChange)="changeIllustrationSize($event)"
+                                        tickInterval="1"
+                                        min="1"
+                                        max="100">
+                                </mat-slider>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+                <div class="titlePanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>Titre</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                    <div class="panelContent">
+                        <div [ngStyle]="{marginBottom: '10px'}">
+                            <mat-slide-toggle formControlName="isTitleDisplayed" (change)="save()" checked="true">
+                                Activer affichage
+                            </mat-slide-toggle>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label>Choisissez une police</mat-label>
+                                <select matNativeControl formControlName="titleFontProperty" (change)="save()">
+                                    <option value="Times New Roman">Times new roman</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Monserrat">Monserrat</option>
+                                    <option value="Sources Sans Pro">Sources Sans Pro</option>
+                                </select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Choisissez une transformation :</mat-label>
+                                <select matNativeControl formControlName="titleTransformProperty" (change)="save()">
+                                    <option value="none">Aucune</option>
+                                    <option value="capitalize">Majuscule à la première lettre</option>
+                                    <option value="uppercase">Uppercase</option>
+                                    <option value="lowercase">Lowercase</option>
+                                </select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Taille titre" type="number"
+                                       formControlName="titleFontSizeProperty" (blur)="save()">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Couleur du titre" type="text"
+                                       formControlName="titleColorProperty" (blur)="save()">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Poids de la typo (400==normal)" type="number"
+                                       formControlName="titleWeightProperty" (blur)="save()">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-label>Position du Titre (si largeur < 100%)</mat-label>
+                            <br>
+                            <mat-button-toggle-group (valueChange)="changeTitlePos($event)" formControlName="titlePosProperty" name="titlePos"
+                                                     aria-label="Titre Position">
+                                <mat-button-toggle value="flex-start">Debut</mat-button-toggle>
+                                <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                <mat-button-toggle value="flex-end">Fin</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                        <div>
+                            <mat-label>Alignement du Titre</mat-label>
+                            <br>
+                            <mat-button-toggle-group (valueChange)="changeTitleAlign($event)" formControlName="titleAlignProperty" name="titleAlign"
+                                                     aria-label="Text Position">
+                                <mat-button-toggle value="left">Gauche</mat-button-toggle>
+                                <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                <mat-button-toggle value="right">Droite</mat-button-toggle>
+                                <mat-button-toggle value="justify">Justifié</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                        <div>
+                            <mat-label>Ecart entre lettres</mat-label>
+                            <mat-slider
+                                    formControlName="titleLetterSpacing"
+                                    thumbLabel
+                                    (valueChange)="changeSectionTitleLetterSpacing($event)"
+                                    tickInterval="0.1"
+                                    min="0.1"
+                                    max="10">
+                            </mat-slider>
+                        </div>
+                        <div>
+                            <mat-label>Largeur de block</mat-label>
+                            <mat-slider
+                                    formControlName="titleWidthProperty"
+                                    thumbLabel
+                                    (valueChange)="changeTitleWidth($event)"
+                                    tickInterval="1"
+                                    min="1"
+                                    max="100">
+                            </mat-slider>
+                        </div>
+                    </div>
+                    </mat-expansion-panel>
+                </div>
+                <div class="descriptionPanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>Description</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                    <div class="panelContent">
+                        <div>
+                            <mat-slide-toggle formControlName="isDescriptionDisplayed" checked="true" (change)="save()">
+                                Activer affichage
+                            </mat-slide-toggle>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Choisissez une police</mat-label>
+                            <select matNativeControl formControlName="descriptionFontProperty" (change)="save()">
+                                <option value="Times New Roman">Times new roman</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Monserrat">Monserrat</option>
+                                <option value="Sources Sans Pro">Sources Sans Pro</option>
+                            </select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Choisissez une transformation :</mat-label>
+                            <select matNativeControl formControlName="descriptionTransformProperty" (change)="save()">
+                                <option value="none">Aucune</option>
+                                <option value="capitalize">Majuscule à la première lettre</option>
+                                <option value="uppercase">Uppercase</option>
+                                <option value="lowercase">Lowercase</option>
+                            </select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Taille text" type="number"
+                                   formControlName="descriptionFontSizeProperty" (change)="save()">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Couleur du texte" type="text"
+                                   formControlName="descriptionColorProperty" (blur)="save()">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Poids de la typo (400==normal)" type="number"
+                                   formControlName="descriptionWeightProperty" (change)="save()">
+                        </mat-form-field>
+                        <div>
+                            <mat-label>Position de la Description (si largeur < 100%)</mat-label>
+                            <br>
+                            <mat-button-toggle-group (valueChange)="changeTextPos($event)" formControlName="descriptionPosProperty" name="descriptionPos"
+                                                     aria-label="Text Position">
+                                <mat-button-toggle value="flex-start">Debut</mat-button-toggle>
+                                <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                <mat-button-toggle value="flex-end">Fin</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                        <div>
+                            <mat-label>Alignement du texte</mat-label>
+                            <br>
+                            <mat-button-toggle-group (valueChange)="changeDescriptionAlign($event)" formControlName="descriptionAlignProperty" name="descriptionAlign"
+                                                     aria-label="Text Position">
+                                <mat-button-toggle value="left">Gauche</mat-button-toggle>
+                                <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                <mat-button-toggle value="right">Droite</mat-button-toggle>
+                                <mat-button-toggle value="justify">Justifié</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                        <div>
+                            <mat-label>Ecart entre lettres</mat-label>
+                            <mat-slider
+                                    formControlName="titleLetterSpacing"
+                                    thumbLabel
+                                    (valueChange)="changeSectionTextLetterSpacing($event)"
+                                    tickInterval="0.1"
+                                    min="0.1"
+                                    max="10">
+                            </mat-slider>
+                        </div>
+                        <div>
+                            <mat-label>Largeur de block</mat-label>
+                            <mat-slider
+                                    formControlName="descriptionWidthProperty"
+                                    thumbLabel
+                                    (valueChange)="changeDescriptionWidth($event)"
+                                    tickInterval="1"
+                                    min="1"
+                                    max="100">
+                            </mat-slider>
+                        </div>
+                    </div>
+                    </mat-expansion-panel>
+                </div>
+                <div class="buttonPanel panel">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><h3>Bouton</h3></mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="panelContent">
+                            <div>
+                                <mat-slide-toggle formControlName="isButtonDisplayed" checked="true" (change)="save()">
+                                    Activer affichage
+                                </mat-slide-toggle>
+                            </div>
+                            <div>
+                                <mat-label>Position du CTA : </mat-label>
+                                <mat-button-toggle-group (valueChange)="changeCTAPos($event)" formControlName="CTAPos" name="CTAPos"
+                                                         aria-label="CTA Position">
+                                    <mat-button-toggle value="left">Debut</mat-button-toggle>
+                                    <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                    <mat-button-toggle value="right">Fin</mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Couleur texte bouton" type="text"
+                                           formControlName="CTAColor" (blur)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Couleur de fond bouton" type="text"
+                                           formControlName="CTABackgroundColor" (blur)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Couleur texte bouton :HOVER" type="text"
+                                           formControlName="CTAHoverColorProperty" (blur)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Radius" type="number"
+                                           formControlName="buttonRadiusProperty" (change)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Hauteur" type="number"
+                                           formControlName="CTAHeight" (change)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Largeur" type="number"
+                                           formControlName="CTAWidth" (change)="save()">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Choisissez une police</mat-label>
+                                    <select matNativeControl formControlName="CTAFontProperty" (change)="save()">
+                                        <option value="Times New Roman">Times new roman</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Verdana">Verdana</option>
+                                        <option value="Arial">Arial</option>
+                                        <option value="Courier New">Courier New</option>
+                                        <option value="Monserrat">Monserrat</option>
+                                        <option value="Sources Sans Pro">Sources Sans Pro</option>
+                                    </select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Choisissez une transformation :</mat-label>
+                                    <select matNativeControl formControlName="buttonTransformProperty" (change)="save()">
+                                        <option value="none">Aucune</option>
+                                        <option value="capitalize">Majuscule à la première lettre</option>
+                                        <option value="uppercase">Uppercase</option>
+                                        <option value="lowercase">Lowercase</option>
+                                    </select>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-label>Ecart entre lettres</mat-label>
+                                <mat-slider
+                                        formControlName="CTALetterSpacing"
+                                        thumbLabel
+                                        (valueChange)="changeSectionButtonLetterSpacing($event)"
+                                        tickInterval="0.1"
+                                        min="0.1"
+                                        max="10">
+                                </mat-slider>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+            </mat-accordion>
+        </form>
+        </ng-scrollbar>
+    </div>
+</div>

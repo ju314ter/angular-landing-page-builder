@@ -1,0 +1,25 @@
+/* Add application styles & imports to this file! */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Gayathri&display=swap');
+
+body {
+    background-color: lightslategrey;
+    color: white;
+}
+h1, h2 {
+    font-family: 'Gayathri', sans-serif;
+}
+p {
+    font-family: Lato, serif;
+}
+.modal-xl {
+    min-width: 95%;
+}
+.mat-form-field-empty.mat-form-field-label {
+    color: lightgrey;
+    margin : 3px;
+    padding: 2px;
+}
+.mat-form-field-underline {
+    background-color: white;
+}

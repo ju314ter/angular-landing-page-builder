@@ -1,0 +1,30 @@
+h3 {
+    margin: 0;
+    padding: 5px;
+}
+.panel {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.paramContainer {
+    width: 100%;
+}
+.actionButton{
+    margin: 10px;
+    width : 30%;
+    line-height: 3.5;
+}
+.actionButton:hover{
+    background-color : #869bac;
+    color: cornsilk;
+}
+.sectionParam {
+    height: 88vh;
+    /*overflow-y: scroll;*/
+}
+.panelContent {
+    padding: 5px;
+}
+.mat-form-field-empty.mat-form-field-label {
+    color: black!important;
+}

@@ -1,0 +1,81 @@
+<div class="paramContainer">
+        <form [formGroup]="formHeader" (ngSubmit)="saveHeader()">
+            <div class="expansionPanel">
+                <mat-accordion>
+                    <div class="headerPanel panel">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title><h3>Header Config</h3></mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="panelContent">
+                                <div [ngStyle]="{marginBottom : '10px'}">
+                                    <mat-label>Logo ? </mat-label>
+                                    <input #fileBackground type="file" name="logoFileInput" accept='.svg,.jpg,.jpeg,.png' (change)="onLogoSelected(fileBackground.files)"/>
+                                    <input type="hidden" name="fileHiddenLogo" formControlName="headerLogoImage" />
+                                </div>
+                                <div>
+                                    <mat-form-field>
+                                        <mat-label>Choisissez un sens</mat-label>
+                                        <select  matNativeControl formControlName="headerFlexDirectionProperty" (blur)="saveHeader()">
+                                            <option value="row">Gauche à droite</option>
+                                            <option value="row-reverse">Droite à gauche</option>
+                                            <option value="column">Haut en bas</option>
+                                            <option value="column-reverse">Bas en haut</option>
+                                        </select>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Couleur du background :</mat-label>
+                                        <input matInput placeholder="Couleur background" type="text" formControlName="headerBackgroundColorProperty" (blur)="saveHeader()">
+                                    </mat-form-field>
+                                </div>
+                                <div [ngStyle]="{marginBottom: '10px', display: 'flex', flexDirection: 'row'}">
+                                    <mat-label>logo offset (vw):</mat-label>
+                                    <input [ngStyle]="{width: '50%'}" matInput type="number" formControlName="logoLeftOffset" (change)="saveHeader()">
+                                    <mat-label>Marges boutons (px):</mat-label>
+                                    <input [ngStyle]="{width: '50%'}" matInput type="number" formControlName="buttonMargins" (change)="saveHeader()">
+                                </div>
+
+                                <div>
+                                    <mat-label>Positions bouttons : </mat-label>
+                                    <mat-button-toggle-group (valueChange)="changeButtonsPos($event)" formControlName="buttonsPosProperty" name="buttonsPos"
+                                                             aria-label="Titre Position">
+                                        <mat-button-toggle value="flex-start">Debut</mat-button-toggle>
+                                        <mat-button-toggle value="center">Centre</mat-button-toggle>
+                                        <mat-button-toggle value="flex-end">Fin</mat-button-toggle>
+                                    </mat-button-toggle-group>
+                                </div>
+                                <div class="buttonColors">
+                                    <mat-form-field>
+                                        <mat-label>Couleur textes :</mat-label>
+                                        <input matInput placeholder="Couleur textes" type="text" formControlName="buttonColorProperty" (blur)="saveHeader()">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Couleur background bouttons :</mat-label>
+                                        <input matInput placeholder="Couleur background boutons" type="text" formControlName="buttonBackgroundColorProperty" (blur)="saveHeader()">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label>Couleur hover bouttons :</mat-label>
+                                        <input matInput placeholder="Couleur hover boutons" type="text" formControlName="buttonHoverColorProperty" (blur)="saveHeader()">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </div>
+                </mat-accordion>
+            </div>
+            <div class="expansionPanel">
+                <mat-accordion>
+                    <div class="footerPanel panel">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title><h3>Footer Config</h3></mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="panelContent">
+                                <p>TODO</p>
+                            </div>
+                        </mat-expansion-panel>
+                    </div>
+                </mat-accordion>
+            </div>
+        </form>
+</div>

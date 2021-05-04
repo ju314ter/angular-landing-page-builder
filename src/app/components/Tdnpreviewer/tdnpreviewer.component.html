@@ -1,0 +1,22 @@
+<div class="previewContainer">
+    <div class="previewContent">
+        <div class="appHeaderPreview">
+            <h2 class="title">Aperçu de la landing page TDN</h2>
+            <div class="topActionBar">
+                <button type="button" mat-raised-button [ngStyle]="{margin:'10px', height: '48px'}" (click)="goBack()">Retour</button>
+                <app-param-header-footer></app-param-header-footer>
+            </div>
+        </div>
+        <div class="previewBody">
+            <headerSection class="headerTDN"></headerSection>
+            <div id="sectionArray">
+                <section-list></section-list>
+            </div>
+            <footerSection class="footerTDN"></footerSection>
+        </div>
+    </div>
+    <div class="previewParam">
+        <app-param-section></app-param-section>
+    </div>
+</div>
+

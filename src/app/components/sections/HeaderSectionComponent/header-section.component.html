@@ -1,0 +1,18 @@
+<div class="headerTdnPreview"  [ngStyle]='{flexDirection: header.flexDirectionProperty , backgroundColor: header.backgroundColorProperty}'>
+    <div id="logoDiv"><img [ngStyle]="{position : 'relative', left: header.logoLeftOffset }" [src]="header.logoImage" *ngIf="header.logoImage"></div>
+    <div id="headerButtonsDiv" [ngStyle]="{justifyContent : header.buttonsPosProperty}">
+        <button (mouseover)="hoverConnection=true" (mouseleave)="hoverConnection=false"
+                [ngStyle]='{ color: header.buttonColorProperty,
+                             backgroundColor: hoverConnection? header.buttonHoverColorProperty : header.buttonBackgroundColorProperty,
+                             margin: header.buttonMargins }' mat-raised-button>
+            Connexion
+        </button>
+        <button (mouseover)="hoverInscription=true" (mouseleave)="hoverInscription=false"
+                [ngStyle]='{ color: header.buttonColorProperty,
+                             backgroundColor: hoverInscription ? header.buttonHoverColorProperty : header.buttonBackgroundColorProperty,
+                             margin: header.buttonMargins }' mat-raised-button>
+            Inscription
+        </button>
+    </div>
+    <div id="countryDropdownDiv" [ngStyle]='{ color : header.buttonColorProperty}'><p>Français</p></div>
+</div>

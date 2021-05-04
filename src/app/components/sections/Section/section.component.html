@@ -1,0 +1,62 @@
+<div [ngStyle]="{ flexDirection : currentSection.flexDirectionProperty,
+                  backgroundColor: currentSection.backgroundColorProperty,
+                  height: currentSection.sectionHeightProperty,
+                  marginTop: currentSection.sectionTopMarginProperty,
+                  marginBottom: currentSection.sectionBottomMarginProperty,
+                  backgroundPosition : currentSection.backgroundPosProperty,
+                  backgroundImage : 'url(' + currentSection.sectionBackgroundImage + ')',
+                  backgroundSize: currentSection.backgroundSizeProperty }"
+     class="sectionContent">
+  <div class="descriptionSection">
+    <form [formGroup]="form">
+    <div class="descriptionSectionBlock title" [ngStyle]='{ justifyContent : currentSection.titleText.posProperty }'
+         *ngIf="currentSection.titleText.textDisplayed" >
+      <div [ngStyle]='{ textAlign: currentSection.titleText.alignProperty , width: currentSection.titleText.widthProperty }'>
+        <h2 contenteditable="true" formControlName="titleText"
+            (blur)="updateTextContent('title')"
+            [ngStyle]='{ fontSize : currentSection.titleText.fontSizeProperty,
+                      fontFamily : currentSection.titleText.fontProperty,
+                      letterSpacing : currentSection.titleText.letterSpacingProperty,
+                      color : currentSection.titleText.colProperty,
+                      fontWeight : currentSection.titleText.fontWeightProperty,
+                      textTransform : currentSection.titleText.transformProperty }'>
+        </h2>
+      </div>
+    </div>
+    <div class="descriptionSectionBlock description" [ngStyle]='{ justifyContent : currentSection.descriptionText.posProperty }'
+         *ngIf="currentSection.descriptionText.textDisplayed" >
+      <div [ngStyle]='{ textAlign: currentSection.descriptionText.alignProperty ,width: currentSection.descriptionText.widthProperty }'>
+        <p contenteditable="true" formControlName="descriptionText"
+           (blur)="updateTextContent('description')"
+           [ngStyle]='{ fontSize : currentSection.descriptionText.fontSizeProperty,
+                      fontFamily : currentSection.descriptionText.fontProperty,
+                      letterSpacing : currentSection.descriptionText.letterSpacingProperty,
+                      color : currentSection.descriptionText.colProperty,
+                      fontWeight : currentSection.descriptionText.fontWeightProperty,
+                      textTransform : currentSection.descriptionText.transformProperty }'>
+        </p>
+      </div>
+    </div>
+    <div [ngStyle]='{ textAlign : currentSection.CTAPosProperty}' class="descriptionSectionBlock button"
+         *ngIf="currentSection.CTAButtonDisplay">
+      <button contenteditable="true" formControlName="buttonText" (mouseover)="hover=true" (mouseleave)="hover=false"
+              (blur)="updateTextContent('button')"
+              [ngStyle]='{
+               color: currentSection.CTAColorProperty,
+               backgroundColor : hover == true ?  currentSection.CTAHoverColorProperty : currentSection.CTABackgroundColorProperty,
+               letterSpacing: currentSection.CTALetterSpacingProperty,
+               textTransform : currentSection.buttonTransformProperty,
+               fontFamily : currentSection.CTAFontProperty,
+               borderRadius : currentSection.buttonRadiusProperty,
+               width: currentSection.CTAWidth,
+               lineHeight: currentSection.CTAHeight
+       }' mat-raised-button>
+      </button>
+    </div>
+    </form>
+  </div>
+  <div class="illustrationSection" *ngIf="currentSection.illustrationDisplay">
+    <img [ngStyle]='{width: currentSection.illustrationSizeProperty}'
+         [src]="currentSection.sectionIllustrationImage"/>
+  </div>
+</div>

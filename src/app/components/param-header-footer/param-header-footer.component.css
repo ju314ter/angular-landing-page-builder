@@ -1,0 +1,22 @@
+h3 {
+    margin: 0;
+    padding: 5px;
+}
+.panel {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.paramContainer {
+    width: 100%;
+}
+.paramContainer form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.expansionPanel {
+    margin: 5px;
+}
+.panelContent {
+    padding: 5px;
+}

@@ -1,0 +1,19 @@
+.container {
+    text-align: center;
+    flex: 1;
+    min-width: 100%;
+    padding :0;
+    margin : 0;
+}
+div {
+    margin-top: 20px;
+}
+label {
+    margin : 10px;
+}
+button {
+    margin: 10px;
+}
+#logo {
+    max-width: 300px;
+}

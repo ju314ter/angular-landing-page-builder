@@ -1,0 +1,11 @@
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+    <div cdkDrag class="sectionWrapper" *ngFor="let section of sectionsList">
+        <div class="section">
+            <div cdkDragHandle class="dragHandle">
+                <button mat-mini-fab color="accent">Drag</button>
+                <button mat-mini-fab color="primary" (click)="editSection(section)">Edit</button>
+            </div>
+            <app-section [sectionName]="section"></app-section>
+        </div>
+    </div>
+</div>
